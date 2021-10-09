@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Mencoba three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script src="js/three.min.js"></script>
+		<script>
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			const geometry = new THREE.BoxGeometry();
+			const geometry2 = new THREE.SphereGeometry()
+			const material = new THREE.MeshPhongMaterial( { 
+				color: 0x555555 //greyish
+			} );
+			const material2 = new THREE.MeshPhongMaterial( { 
+				color: 0x555555 //greyish
+			} );
+			const cube = new THREE.Mesh( geometry, material );
+			const sphere = new THREE.Mesh( geometry2, material2 );
+			scene.add( new THREE.AmbientLight(0xff0040) );//torch red
+
+			var light = new THREE.PointLight(0xffffff, 6, 40); // soft white
+			light.position.set(20, 20, 20);
+			scene.add(light);
+	
+			scene.add( cube );
+			scene.add( sphere );
+
+			camera.position.z = 5;
+
+			const animate = function () {
+				requestAnimationFrame( animate );
+
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				cube.position.x = -3;
+
+	    			sphere.rotation.x += 0.01;
+	    			sphere.rotation.y += 0.01;
+				sphere.position.x=3;
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+	</body>
+</html>
