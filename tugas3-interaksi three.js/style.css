@@ -1,0 +1,27 @@
+body{
+    margin: 0px auto;
+    padding: 0px;
+}
+
+.score {
+    color: black;
+    position: absolute;
+    border-radius: 10px;
+    padding: 5px;
+    margin-top: 15px;
+    margin-left: 45%;
+    text-align: center;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.right{
+    float: right;
+    position: absolute;
+    color: white;
+    margin-left: 90%;
+    font-weight: 300;
+    font-size: large;
+    background-color: black;
+    padding: 5px;
+}
