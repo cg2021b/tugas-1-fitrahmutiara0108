@@ -1,7 +1,6 @@
 import * as THREE from './js/three.module.js';
 import {OrbitControls} from './js/OrbitControls.js';
 import {GLTFLoader} from './js/GLTFLoader.js';
-import {Reflector} from './js/Reflector.js';
 import * as dat from './libs/dat.gui.module.js'
 
 class FogGUIHelper {
@@ -90,12 +89,12 @@ renderer.gammaOutput = true;
 //panorama
 const panorama = new THREE.CubeTextureLoader();
 const texture = panorama.load([
-  'img/texture/px.png',
-  'img/texture/nx.png',
-  'img/texture/py.png',
-  'img/texture/ny.png',
-  'img/texture/px.png',
-  'img/texture/nz.png',
+  'img/texture/px.jpg',
+  'img/texture/nx.jpg',
+  'img/texture/py.jpg',
+  'img/texture/ny.jpg',
+  'img/texture/pz.jpg',
+  'img/texture/nz.jpg',
 ]);
 scene.background = texture;
 
@@ -135,21 +134,17 @@ function dumpObject(obj, lines = [], isLast = true, prefix = '') {
 
 const loader = new GLTFLoader()
 loader.load('./img/scene.gltf', function(gltf){
-        const root = gltf.scene;
-        root.position.x = 0;
-        root.position.y = -4;
-        scene.add(root);
+        const root1 = gltf.scene;
+        root1.position.x = 0;
+        root1.position.y = -3.5;
+        scene.add(root1);
 
-        root.traverse(n => { if ( n.isMesh ) {
+        root1.traverse(n => { if ( n.isMesh ) {
           n.castShadow = true; 
           n.receiveShadow = true;
         }});
 
 })
-
-//lights
-const ambientLight = new THREE.AmbientLight(0x000000);
-scene.add(ambientLight);
 
 const solarLight = new THREE.DirectionalLight();
 solarLight.position.set(500, 500, -500);
@@ -160,7 +155,7 @@ solarLight.shadow.mapSize.height = 1024;
 solarLight.shadow.camera.near = 250;
 solarLight.shadow.camera.far = 1000;
 
-let intensity = 50;
+ let intensity = 50;
 
 solarLight.shadow.camera.left = -intensity;
 solarLight.shadow.camera.right = intensity;
@@ -196,24 +191,11 @@ scene.add(sphereCamera);
 const SphereMirror = new THREE.MeshBasicMaterial({
   envMap: sphereCamera.renderTarget.texture,
 });
-const SphereGeo = new THREE.SphereGeometry(1.5, 25 , 10);
+const SphereGeo = new THREE.SphereGeometry(6, 100 , 30);
 const mirrorBall = new THREE.Mesh( SphereGeo, SphereMirror);
-mirrorBall.position.y = 5;
-mirrorBall.position.x = 5;
+mirrorBall.position.y = 7;
+mirrorBall.position.x = 0;
 scene.add(mirrorBall);
-
-//mirror
-
-let planeMirror = new THREE.PlaneGeometry(20, 20);
-const verticalMirror = new Reflector( planeMirror, {
-  clipBias: 0.003,
-  textureWidth: window.innerWidth * window.devicePixelRatio,
-  textureHeight: window.innerHeight * window.devicePixelRatio,
-  color: 0x889999
-} );
-verticalMirror.position.y = 5.5;
-verticalMirror.position.z = - 10;
-scene.add( verticalMirror );
 
 const animate = () =>
 {
